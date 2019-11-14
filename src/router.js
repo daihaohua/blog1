@@ -5,8 +5,6 @@ const  Home = () => import('./views/home/Home.vue');
 const  Homes = () => import('./views/home/Homes.vue');
 // 学习心得组件
 const  StudyNotes = () => import('./views/StudyNotes/');
-// 技术组件
-const  Technology = () => import('./views/technology/');
 // 关于我组件
 const  About = () => import('./views/about/');
 // 个人日记
@@ -62,6 +60,9 @@ const  MessageManagement = ()=> import('./views/admin/MessageManagement');
 
 //个人中心
 const  PersonalCenter = ()=> import('./views/personalCenter');
+
+//404页面
+const  Not404 = ()=> import('./views/Not404');
 Vue.use(Router)
 
 export default new Router({
@@ -93,11 +94,6 @@ export default new Router({
                   path:"/about",
                   name: 'about',
                   component: About,
-              },
-              {
-                  path:"/technology",
-                  name: 'technology',
-                  component: Technology,
               },
               {
                   path:"/blogRoll",
@@ -217,6 +213,11 @@ export default new Router({
                   component:MessageManagement
               }
           ]
+      },
+      {
+          path:"*",
+          name:"Not404",
+          component:Not404
       }
   ]
 })

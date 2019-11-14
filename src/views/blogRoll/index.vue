@@ -38,31 +38,30 @@
         },
         async activated(){
             let {data} = await ajax("/api/home/breadCrumb");
-            console.log(data);
             this.breadCrumbData = data;
         },
         methods:{
             go(AFriendLink){
-                window.location.href = 'http://www.baidu.com';
+                window.location.href = AFriendLink;
             }
         }
     }
 </script>
 
 <style scoped lang="scss">
-    .clearfix:after{
-        display:block;
-        content:"";
-        clear:both;
-    }
     .blogRoll{
         padding:100px;
         background-color: #fff;
+        height: 50vh;
             .latest-particulars{
                 border-radius: 6px;
                 ul{
+                    font-family: STKaiti;
+                    font-size: 20px;
                     display: flex;
                     flex-wrap: wrap;
+                    justify-content: center;
+                    align-content: center;
                     li{
                         border:1px solid #ccc;
                         width: 340px;

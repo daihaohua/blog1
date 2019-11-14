@@ -36,15 +36,13 @@
                     <!--最新评论-->
                     <Latest :LeaveAMessageData="LeaveAMessageData"/>
 
-                    <!--一路走来-->
-                    <div class="content-right">
-                        <div class="content-right">
-                            <h3 class="subtitle"><i class="el-icon-position"></i>一路走来</h3>
-                        </div>
-                    </div>
-
                     <!--友情链接-->
                     <Friendship :listOfFriendship="listOfFriendship"/>
+
+                    <!--一路走来-->
+                    <AllTheWayToGo />
+
+
                 </div>
             </el-col>
         </el-row>
@@ -58,6 +56,7 @@
     import Swiper from "@/components/swiper";
     import TheArticleDetails from "../theArticleDetails/index";
     import Friendship from "@/components/Friendship";
+    import AllTheWayToGo from "@/components/AllTheWayToGo";
     import {ajax} from "../../api"
     export default {
         name: "Homes",
@@ -71,9 +70,7 @@
             }
         },
         async activated(){
-            let {data}  = await ajax("http://47.101.135.0:3000/home/homePageData");
-            // let {data} = await ajax("/api/home/homePageData");
-            console.log(data);
+            let {data} = await ajax("/api/home/homePageData");
             this.slideShowData = data.SlideShowData;
             this.articleDate = data.ArticleData;
             this.LeaveAMessageData = data.LeaveAMessageData;
@@ -86,7 +83,8 @@
             PopularArticles,
             Swiper,
             Latest,
-            Friendship
+            Friendship,
+            AllTheWayToGo
         }
     }
 </script>

@@ -3,10 +3,13 @@ import Vuex from 'vuex'
 import {ajax} from "./api"
 
 Vue.use(Vuex)
-
 export default new Vuex.Store({
   state: {
-        user:{},
+        user:{
+            headPortrait:'',
+            isAdmin:'',
+            username:''
+        },
 	    BackStageDatas:[],
         categoricalData:[],
         theArticleClassification:[],
@@ -47,7 +50,8 @@ export default new Vuex.Store({
       },
       photoAlbumData(state,photoAlbumData){
           state.photoAlbumData =photoAlbumData;
-      }
+      },
+
   },
   actions: {
       //获取后台分类数据

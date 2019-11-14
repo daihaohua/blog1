@@ -43,7 +43,6 @@
         },
         async activated(){
             let {data} = await ajax("/api/home/personalDiaryData");
-            console.log(data);
             this.personalDiaryData = data;
         },
     }
@@ -54,6 +53,8 @@
         padding:100px ;
         background-color: #fff;
         ul{
+            font-family: STKaiti;
+            font-size: 20px;
             li{
                 .technology-head-portrait{
                     float: left;
@@ -72,15 +73,17 @@
                     transition: 0.5s;
                     p{
                         position: relative;
-                        width:92%;
+                        width:650px;
                         height: 100%;
+                        text-indent: 36px;
                         margin-left: 100px;
                         font-size: 18px;
                         .tag{
                             position: absolute;
                             bottom: 0;
-                            right: 0;
+                            right: -25px;
                             font-size: 18px;
+                            text-indent: 0;
                         }
                     }
                 }

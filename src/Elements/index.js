@@ -45,7 +45,8 @@ import {
     Card,
     Link,
     Backtop,
-    Icon
+    Icon,
+    Tooltip
 } from "element-ui"
 
 Vue.use(Pagination);
@@ -93,6 +94,7 @@ Vue.use(Card);
 Vue.use(Link);
 Vue.use(Backtop);
 Vue.use(Icon);
+Vue.use(Tooltip);
 
 
 

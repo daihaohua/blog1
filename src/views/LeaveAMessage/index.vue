@@ -33,7 +33,7 @@
                         <h4>{{item.username}}</h4>
                         <p>{{item.textArea}}</p>
                         <div>
-                            <p class="created">{{new Date(item.created).toLocaleDateString()}}</p>
+                            <p class="created">{{new Date(item.created).toLocaleString()}}</p>
                         </div>
                     </div>
                 </div>
@@ -90,7 +90,7 @@
                     type: data.type,
                     message: data.particulars
                 });
-
+                this.textArea='';
             },
             async getLeaveAMessage(pages){
                 let {data} = await  ajax("/api/home/getLeaveAMessage",{pages})
@@ -145,13 +145,24 @@
                     height: 70px;
                 }
                 .latest-content{
+                    font-family: STKaiti;
+                    h4{
+                        font-size: 20px;
+                    }
+                    p{
+                        font-size: 22px;
+                    }
                     div{
                         text-align: right;
+                        p{
+                            font-size: 18px;
+                        }
                         .created{
                             display: inline-block;
                             font-weight: 700;
                             border-radius: 6px;
                             padding: 7px;
+                            color: #f4f4f4;
                             background-color: cornflowerblue;
                         }
                     }

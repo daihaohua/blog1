@@ -1,27 +1,29 @@
 <template id="">
     <div id="login">
-        <el-button
-                type="info"
-                icon="el-icon-arrow-left"
-                circle
-                @click="retreat"></el-button>
-        <h2>欢迎来到登录界面</h2>
-        <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-            <el-form-item label="姓名" prop="username">
-                <el-input v-model="ruleForm.username"></el-input>
-            </el-form-item>
-            <el-form-item label="密码" prop="password">
-                <el-input type="password" v-model="ruleForm.password" autocomplete="off"></el-input>
-            </el-form-item>
-            <el-form-item>
-                <el-button type="primary"
-                           @click="submitForm('ruleForm')"
-                           >提交</el-button>
-                <el-button
-                        @click="resetForm('ruleForm')"
-                >注册</el-button>
-            </el-form-item>
-        </el-form>
+        <div class="login">
+            <el-button
+                    type="info"
+                    icon="el-icon-arrow-left"
+                    circle
+                    @click="retreat"></el-button>
+            <h2>欢迎来到登录界面</h2>
+            <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+                <el-form-item label="姓名" prop="username">
+                    <el-input v-model="ruleForm.username"></el-input>
+                </el-form-item>
+                <el-form-item label="密码" prop="password">
+                    <el-input type="password" v-model="ruleForm.password" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary"
+                               @click="submitForm('ruleForm')"
+                    >提交</el-button>
+                    <el-button
+                            @click="resetForm('ruleForm')"
+                    >注册</el-button>
+                </el-form-item>
+            </el-form>
+        </div>
     </div>
 </template>
 
@@ -54,13 +56,12 @@
                     if (!valid) {
                         return false;
                     }
-                    let data = await  ajax("/api/LogAndReg/login",this.ruleForm,"post")
-					let result = data.data
+                    let {data} = await  ajax("/api/LogAndReg/login",this.ruleForm,"post")
                     Message({
-                        message: result.particulars,
-                        type: result.type
+                        message: data.particulars,
+                        type: data.type
                     })
-                    if(!result.error){//为0登录成功 为1登录失败
+                    if(!data.errer){//为0登录成功 为1登录失败
                         setTimeout(()=>{
                             this.$router.push("/")
                         },1000)
@@ -87,6 +88,12 @@
         margin-top: 0;
     }
     #login{
+        height: 100vh;
+        background-image: url("../../assets/images/login.jpg");
+        background-size: cover;
+        background-attachment: fixed;
+    }
+    .login{
         position:absolute;
         left:0;
         top:0;

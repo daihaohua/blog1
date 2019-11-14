@@ -5,6 +5,8 @@ import store from './store'
 import Router from 'vue-router'
 import {Loading} from 'element-ui';
 import VueQuillEditor from 'vue-quill-editor'
+import "wangeditor/release/wangEditor.css";
+
 
 // require styles
 import 'quill/dist/quill.core.css'
@@ -39,7 +41,6 @@ Axios.interceptors.response.use(function (response) {
     // Do something with response data
     let loadingInstance = Loading.service({
         text:"加载数据中.....",
-        background:"red"
     });
     loadingInstance.close();
     return response;

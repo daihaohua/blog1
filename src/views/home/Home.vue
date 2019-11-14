@@ -115,7 +115,7 @@
         background-color: orangered;
     }
     #subject{
-        width:1500px;
+        width:1200px;
         margin: auto;
     }
     .content-right{

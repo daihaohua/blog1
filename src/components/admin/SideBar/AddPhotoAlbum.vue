@@ -93,7 +93,6 @@
                 this.title = parameter.title;
                 if(parameter.data){
                     this.forms = parameter.data
-                    console.log(this.forms)
                 }
 
             },
@@ -102,7 +101,6 @@
                     if (valid) {
                         if(this.title==='add'){
                             let {data} = await ajax('/api/backStage/addPhotoAlbum', this.forms,"post")
-                            console.log(data)
                             Message({
                                 type: data.type,
                                 message: data.particulars
@@ -111,7 +109,6 @@
                             this.getPhotoAlbum(this.pages)
                         }else{
                             let {data} = await ajax('/api/backStage/modifyThePhotoAlbum', this.forms,"post")
-                            console.log(data)
                             Message({
                                 type: data.type,
                                 message: data.particulars

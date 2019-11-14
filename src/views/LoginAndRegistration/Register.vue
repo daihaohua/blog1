@@ -1,30 +1,32 @@
 <template id="">
     <div id="login">
-        <el-button
-                type="info"
-                icon="el-icon-arrow-left"
-                circle
-                @click="retreat"></el-button>
-        <el-form
-                :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-            <el-form-item label="用户名" prop="username">
-                <el-input v-model="ruleForm.username"></el-input>
-            </el-form-item>
-            <el-form-item label="密码" prop="password">
-                <el-input type="password" v-model="ruleForm.password" autocomplete="off"></el-input>
-            </el-form-item>
-            <el-form-item label="确认密码" prop="confirmPassword">
-                <el-input type="password" v-model="ruleForm.confirmPassword" autocomplete="off"></el-input>
-            </el-form-item>
-            <el-form-item>
-                <el-button type="primary"
-                           @click="submitForm('ruleForm')"
-                           >注册</el-button>
-                <el-button
-                        @click="resetForm('ruleForm')"
-                       >重置</el-button>
-            </el-form-item>
-        </el-form>
+        <div class="login">
+            <el-button
+                    type="info"
+                    icon="el-icon-arrow-left"
+                    circle
+                    @click="retreat"></el-button>
+            <el-form
+                    :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+                <el-form-item label="用户名" prop="username">
+                    <el-input v-model="ruleForm.username"></el-input>
+                </el-form-item>
+                <el-form-item label="密码" prop="password">
+                    <el-input type="password" v-model="ruleForm.password" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="确认密码" prop="confirmPassword">
+                    <el-input type="password" v-model="ruleForm.confirmPassword" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary"
+                               @click="submitForm('ruleForm')"
+                    >注册</el-button>
+                    <el-button
+                            @click="resetForm('ruleForm')"
+                    >重置</el-button>
+                </el-form-item>
+            </el-form>
+        </div>
     </div>
 </template>
 
@@ -60,11 +62,10 @@
             submitForm(formName) {
                 this.$refs[formName].validate(async (valid) => {
                     if (!valid) {//验证不成功直接return出去
-                        return;
+                        return false;
                     }
                     //前台验证成功之后到后台验证
                     let {data} = await ajax("/api/LogAndReg/register",this.ruleForm,"post")
-					console.log(data);
                     Message({
                         message: data.particulars,
                         type: data.type
@@ -80,11 +81,6 @@
             },
             resetForm(formName) {
                 this.$refs[formName].resetFields();
-                setTimeout(()=>{
-                    this.$router.push({
-                        name:"home"
-                    })
-                },500)
             },
             retreat(){
                 this.$router.push("/home")
@@ -95,6 +91,12 @@
 
 <style scoped>
     #login{
+        height: 100vh;
+        background-image: url("../../assets/images/rags.jpg");
+        background-size: cover;
+        background-attachment: fixed;
+    }
+    .login{
         position:absolute;
         left:0;
         top:0;

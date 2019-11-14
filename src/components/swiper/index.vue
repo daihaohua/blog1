@@ -6,21 +6,21 @@
         <div class="swiper-wrapper">
             <div class="swiper-slide">
                 <ul class="clearfix">
-                    <li v-for="item in 10">
-                        <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1568888030272&di=26f0cb6d35de6c28570b895d375ac481&imgtype=0&src=http%3A%2F%2Fimg3.duitang.com%2Fuploads%2Fitem%2F201609%2F23%2F20160923164101_SVEek.jpeg"/>
+                    <li v-for="(item,index) in 8" :key="index">
+                        <img :src="require(`../../assets/images/${index+1}.jpg`)"/>
                     </li>
                 </ul>
             </div>
             <div class="swiper-slide">
                 <ul class="clearfix">
-                    <li v-for="item in 10">
-                        <img src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2754826123,4132314108&fm=15&gp=0.jpg"/>
+                    <li v-for="(item,index) in 8" :key="index">
+                        <img :src="require(`../../assets/images/${index+2}.jpg`)"/>
                     </li>
                 </ul>
             </div>
             <div class="swiper-slide">
                 <ul class="clearfix">
-                    <li v-for="item in 10">
+                    <li v-for="item in 6">
                         <img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3402044407,1443923896&fm=15&gp=0.jpg"/>
                     </li>
                 </ul>
@@ -33,12 +33,30 @@
 
     export default {
         name: "index",
+        data(){
+            return{
+                imgData:[
+                    {
+                        imgName:'../../assetes/images/1.jpg'
+                    }
+                ]
+            }
+        },
         mounted(){
             let swiperContainer = this.$refs.swipers
-            var mySwiper = new Swiper(swiperContainer, {
-                // autoplay: true,//可选选项，自动滑动
+            new Swiper(swiperContainer, {
+                autoplay: {
+                     delay: 1000,
+                     stopOnLastSlide: false,
+                     disableOnInteraction: true,
+                     },
             })
         },
+        filters:{
+            getImg(img){
+                return  `../../assetes/images/${img}.jpg`;
+            }
+        }
     }
 </script>
 
@@ -60,6 +78,11 @@
     }
     .swiper-slide{
         ul{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
             li{
                 float: left;
                 width: 150px;

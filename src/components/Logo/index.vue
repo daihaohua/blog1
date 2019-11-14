@@ -1,8 +1,10 @@
+
 <template id="">
     <div id="logo">
-        <h1>
-            <img src="../../assets/images/logo3.jpg" width="100%" height="100%">
-        </h1>
+        <router-link to="/" tag="h1">
+            <img :src="require('../../assets/images/logo.png')" width="80%" height="80%">
+        </router-link>
+
     </div>
 </template>
 
@@ -18,9 +20,9 @@
     background-color: rgb(84, 92, 100);
     h1{
         float: right;
-        width: 80px;
         height: 80px;
         cursor: pointer;
+        text-align:right;
     }
 }
 </style>

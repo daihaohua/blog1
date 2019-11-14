@@ -24,12 +24,8 @@
                             <span>{{item.classId.classify}}</span>
                         </li>
                         <li>
-                            <i class="iconFont el-icon-medal"></i>
-                            <span>{{item.reading}}</span>
-                        </li>
-                        <li>
                             <i class="iconFont el-icon-thumb"></i>
-                            <span>{{item.hits}}</span>
+                            <span>{{item.reading}}</span>
                         </li>
                         <li>
                             <i class="iconFont el-icon-time"></i>
@@ -56,7 +52,7 @@
                     query:{_id}
                 })
             }
-        }
+        },
     }
 </script>
 
@@ -74,13 +70,13 @@
     .active{
         padding: 15px;
         background-color: #fff;
-        border-radius: 4px;
+        border-radius: 6px;
         transition:0.5s;
         cursor: pointer;
         margin-top: 20px;
+        border: 1px solid #c0ccda;
         &:hover{
-            box-shadow: 1px 6px 30px #ccc;
-            border-bottom: 2px solid deepskyblue;
+            box-shadow: 1px 6px 50px #ccc;
         }
         &:hover img{
             transform: scale(1.1);
@@ -98,6 +94,7 @@
             }
         }
         .article-content{
+
             float: right;
             width: 69%;
             height: 170px;
@@ -105,16 +102,17 @@
                 padding: 8px 0;
             }
             .content{
+                font-family: STKaiti;
                 ul{
                     li{
+                        width: 139px;
                         float: left;
-                        margin-right: 20px;
                         line-height: 40px;
-
                         span{
                             vertical-align: middle;
-                            font-size: 15px;
+                            font-size: 18px;
                             font-weight: 700;
+                            margin-left: 2px;
                         }
                         .iconFont{
                             font-size: 20px;
@@ -125,9 +123,12 @@
                 }
             }
             .describe{
+                font-family: STKaiti;
                 margin-top: 5px;
+                font-weight: 500;
                 p{
-                    font-size: 16px;
+                    font-size: 19px;
+                    text-indent: 30px;
                 }
             }
         }

@@ -1,14 +1,19 @@
 <template >
     <div id="TheBottomBar">
         <p>
-            欢迎来到我的个人博客中心；
+            Design by：白羊座的梦 备案号：湘ICP备30641438号-2
         </p>
     </div>
 </template>
 
 <script>
     export default {
-        name: "index"
+        name: "index",
+        watch:{
+            $router(){
+                console.log(1)
+            }
+        }
     }
 </script>
 

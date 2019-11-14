@@ -10,7 +10,7 @@
 <script>
     export default {
         name: "BreadCrumb",
-       props:["breadCrumb"]
+       props:["breadCrumb"],
     }
 </script>
 

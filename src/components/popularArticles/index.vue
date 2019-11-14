@@ -10,7 +10,7 @@
                         @click="handelClick(item._id)"
                 >
                     <span class="ranking">{{index+1}}</span>
-                    <p>{{item.title}}</p>
+                    <p :title="item.title">{{item.title}}</p>
                     <span class="item">{{item.reading}}</span>
                 </li>
         </ul>
@@ -80,10 +80,14 @@
                 }
                 p{
                     float: left;
+                    width: 200px;
                     margin-left: 10px;
                     line-height: 40px;
                     font-weight: bold;
-                    font-size: 18px;
+                    font-size: 15px;
+                    overflow: hidden;
+                    text-overflow:ellipsis;
+                    white-space: nowrap;
                 }
             }
         }

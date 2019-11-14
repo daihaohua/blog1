@@ -37,22 +37,22 @@
 						</template>
 					</el-table-column>
 				</el-table>
-				<!--<div id="pages">-->
-					<!--<el-button-->
-					<!--type="primary"-->
-					<!--icon="el-icon-arrow-left"-->
-					<!--id="button-left"-->
-					<!--@click="previous"-->
-					<!--:disabled="page===1?true:false"-->
-			<!--&gt;上一页</el-button>-->
-			<!--<span>{{page}}/{{maxPage}}</span>-->
-			<!--<el-button-->
-					<!--type="primary"-->
-					<!--id="button-right"-->
-					<!--@click="next"-->
-					<!--:disabled="page===maxPage?true:false"-->
-			<!--&gt;下一页<i class="el-icon-arrow-right el-icon&#45;&#45;right"></i></el-button>-->
-		<!--</div>-->
+				<div id="pages">
+					<el-button
+					type="primary"
+					icon="el-icon-arrow-left"
+					id="button-left"
+					@click="previous"
+					:disabled="page===1?true:false"
+			>上一页</el-button>
+			<span>{{page}}/{{maxPage}}</span>
+			<el-button
+					type="primary"
+					id="button-right"
+					@click="next"
+					:disabled="page===maxPage?true:false"
+			>下一页<i class="el-icon-arrow-right el-icon--right"></i></el-button>
+		</div>
 	</el-main>
 	<modify-the-classification ref="xxx"/>
 </div>

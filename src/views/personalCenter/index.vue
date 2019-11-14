@@ -84,6 +84,7 @@
                     type: data.type,
                     message: data.particulars
                 });
+                window.location.reload();
             },
             async changePassword(){
                 let _id = this.users._id;
@@ -102,6 +103,7 @@
                     type: data.type,
                     message: data.particulars
                 });
+                window.location.reload();
             },
             beforeUpload(file){
                 const isLt2M = file.size / 1024 / 1024 < 2;

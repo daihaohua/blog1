@@ -1,19 +1,22 @@
 <template id="">
     <div id="TheArticleDetails">
+        <bread-crumb :breadCrumb="breadCrumb"/>
         <the-latest-article :articleDate="articleDate" />
-        <div id="pages" v-show="articleDate.length !== 0">
-            <!--<el-button-->
-                    <!--type="primary"-->
-                    <!--icon="el-icon-arrow-left"-->
-                    <!--id="button-left"-->
-                    <!--@click="previous"-->
-            <!--&gt;上一页</el-button>-->
-            <!--<span>{{page}}/{{maxPage}}</span>-->
-            <!--<el-button-->
-                    <!--type="primary"-->
-                    <!--id="button-right"-->
-                    <!--@click="next"-->
-            <!--&gt;下一页<i class="el-icon-arrow-right el-icon&#45;&#45;right"></i></el-button>-->
+        <div id="pages" v-show="articleDate.length !== 10">
+            <el-button
+                    type="primary"
+                    icon="el-icon-arrow-left"
+                    id="button-left"
+                    @click="previous"
+                    :disabled="page===1?true:false"
+            >上一页</el-button>
+            <span>{{page}}/{{maxPage}}</span>
+            <el-button
+                    type="primary"
+                    id="button-right"
+                    @click="next"
+                    :disabled="page===maxPage?true:false"
+            >下一页<i class="el-icon-arrow-right el-icon--right"></i></el-button>
         </div>
         <div v-show="articleDate.length === 0">
             <h3>该分类还没有文章数据请联系管理员添加文章；</h3>
@@ -27,6 +30,7 @@
         name: "TheArticleDetails",
         data(){
             return{
+                breadCrumb:["学习馆"],
                 articleDate:[],
                 page:1,
                 maxPage:1
@@ -44,7 +48,6 @@
             async getClassifyArticle(pages){
                 let classId =  this.$route.params.id;
                 let {data} = await ajax("/api/home/study/"+classId,{pages});
-                console.log(data);
                 this.page = data.page;
                 this.maxPage = data.maxPage;
                 this.articleDate = data.categoryData;

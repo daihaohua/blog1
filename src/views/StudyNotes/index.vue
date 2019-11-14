@@ -47,7 +47,6 @@
         },
         async activated(){
             let {data} = await ajax("/api/home/StudyNotesData");
-            console.log(data);
             this.StudyNotesData = data;
         },
         methods:{
@@ -79,6 +78,10 @@
             text-align: center;
             margin-left: 55px;
             margin-bottom: 55px;
+        }
+        h3{
+            font-family: STKaiti;
+            font-size: 21px;
         }
     }
 </style>

@@ -5,29 +5,26 @@
             <ul class="clearfix">
                 <li>
                     时间:
-                    <span>
-                         {{new Date(articleDate.created).toLocaleDateString()}}
-                    </span>
-
+                    <span v-text="new Date(articleDate.created).toLocaleDateString()" />
                 </li>
                 <li>
                     作者:
-                    <span>
-                         123
-                    </span>
-
+                    <span v-text="username" />
+                </li>
+                <li>
+                    分类:
+                    <span v-text="classify" />
                 </li>
                 <li>
                     阅读量:
                     <span>
                       {{articleDate.reading}}
                     </span>
-
                 </li>
             </ul>
         </div>
         <div class="content">
-            <p v-html="articleDate.content"/>
+            <p v-html="articleDate.content" />
         </div>
         <div>
             <el-input
@@ -66,18 +63,20 @@
                 </div>
             </div>
             <div id="pages">
-                <!--<el-button-->
-                        <!--type="primary"-->
-                        <!--icon="el-icon-arrow-left"-->
-                        <!--id="button-left"-->
-                        <!--@click="previous"-->
-                <!--&gt;上一页</el-button>-->
-                <!--<span>{{page}}/{{maxPage}}</span>-->
-                <!--<el-button-->
-                        <!--type="primary"-->
-                        <!--id="button-right"-->
-                        <!--@click="next"-->
-                <!--&gt;下一页<i class="el-icon-arrow-right el-icon&#45;&#45;right"></i></el-button>-->
+                <el-button
+                        type="primary"
+                        icon="el-icon-arrow-left"
+                        id="button-left"
+                        @click="previous"
+                        :disabled="page===1?true:false"
+                >上一页</el-button>
+                <span>{{page}}/{{maxPage}}</span>
+                <el-button
+                        type="primary"
+                        id="button-right"
+                        @click="next"
+                        :disabled="page===maxPage?true:false"
+                >下一页<i class="el-icon-arrow-right el-icon--right"></i></el-button>
             </div>
         </div>
     </div>
@@ -92,15 +91,19 @@
             return{
                 articleDate:{},
                 textArea:'',
+                username:'',
+                classify:'',
                 Comments:[],
                 page:1,
-                maxPage:1
+                maxPage:1,
             }
         },
         async activated(){
             let _id = this.$route.query._id;
             let {data} = await ajax("/api/home/getArticle",{_id});
             this.articleDate = data;
+            this.username=data.authorId.username;
+            this.classify=data.classId.classify;
             this.getComment();
         },
         methods:{
@@ -122,6 +125,7 @@
                     message: data.particulars
                 });
                 this.getComment();
+                this.textArea='';
             },
             async getComment(pages){
                 let articleId = this.$route.query._id;
@@ -143,7 +147,7 @@
     }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
     .TheArticleShows{
         position: relative;
         padding: 100px;
@@ -156,7 +160,7 @@
             border-top: 1px dashed black;
             border-bottom: 1px dashed black;
             ul{
-                width: 450px;
+                width: 600px;
                 margin: auto;
                 li{
                     float: left;
@@ -171,6 +175,52 @@
         }
         .content{
             padding: 20px 10px;
+            p{
+                /* table 样式 */
+                table {
+                    border-top: 1px solid #ccc;
+                    border-left: 1px solid #ccc;
+                }
+                table td,
+                table th {
+                    border-bottom: 1px solid #ccc;
+                    border-right: 1px solid #ccc;
+                    padding: 3px 5px;
+                }
+                table th {
+                    border-bottom: 2px solid #ccc;
+                    text-align: center;
+                }
+
+                /* blockquote 样式 */
+                blockquote {
+                    display: block;
+                    border-left: 8px solid #d0e5f2;
+                    padding: 5px 10px;
+                    margin: 10px 0;
+                    line-height: 1.4;
+                    font-size: 100%;
+                    background-color: #f1f1f1;
+                }
+                /* code 样式 */
+                code {
+                    display: inline-block;
+                    *display: inline;
+                    *zoom: 1;
+                    background-color: #f1f1f1;
+                    border-radius: 3px;
+                    padding: 3px 5px;
+                    margin: 0 3px;
+                }
+                pre code {
+                    display: block;
+                }
+
+                /* ul ol 样式 */
+                ul, ol {
+                    margin: 10px 0 10px 20px;
+                }
+            }
         }
         .leaveAMessage{
             float: right;
@@ -226,4 +276,5 @@
             font-size: 20px;
         }
     }
+
 </style>
