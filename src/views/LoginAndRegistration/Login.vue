@@ -28,7 +28,7 @@
 </template>
 
 <script>
-    import {ajax} from "../../api"
+    import {login} from "../../api/homeRouter"
     import { Message } from 'element-ui';
     export default {
         name: "Login",
@@ -56,27 +56,31 @@
                     if (!valid) {
                         return false;
                     }
-                    let {data} = await  ajax("/api/LogAndReg/login",this.ruleForm,"post")
+                    let {data} = await login(this.ruleForm);
                     Message({
                         message: data.particulars,
                         type: data.type
                     })
+                    this.deleteData("ruleForm");
                     if(!data.errer){//为0登录成功 为1登录失败
+                        
                         setTimeout(()=>{
                             this.$router.push("/")
-                        },1000)
+                        },500)
                     }
                 });
             },
             resetForm(formName) {
-                this.$refs[formName].resetFields();
-                    this.$router.push({
-                        name:"register"
-                    })
+                    this.deleteData("ruleForm");
+                    this.$router.push({name:"register"})
             },
             retreat(){
-                this.$router.push("/home")
-            }
+                this.deleteData("ruleForm");
+                this.$router.go(-1)
+            },
+            deleteData(formName){
+                this.$refs[formName].resetFields();
+            },
         }
     }
 

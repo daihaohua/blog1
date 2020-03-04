@@ -31,7 +31,7 @@
 </template>
 
 <script>
-    import {ajax} from "../../api"
+    import {register} from "../../api/homeRouter"
     import { Message } from 'element-ui';
     export default {
         name: "Register",
@@ -65,25 +65,33 @@
                         return false;
                     }
                     //前台验证成功之后到后台验证
-                    let {data} = await ajax("/api/LogAndReg/register",this.ruleForm,"post")
+                    let {data} = await register(this.ruleForm);
                     Message({
                         message: data.particulars,
                         type: data.type
                     })
+                    this.deleteData("ruleForm");
                     if(!data.errer){//是0保存成功 是1保存失败
-                        setTimeout(()=>{
-                            this.$router.push({
-                                name:"login"
-                            })
-                        },1000)
+                         this.$router.push({name:"login"})
                     }
                 });
             },
             resetForm(formName) {
-                this.$refs[formName].resetFields();
+                this.deleteData("ruleForm");
             },
             retreat(){
-                this.$router.push("/home")
+                this.deleteData("ruleForm");
+                this.$router.go(-1)
+            },
+            deleteData(formName){
+                this.$refs[formName].resetFields();
+            }
+        },
+        activated(){
+            let isUsername = this.$store.state.user;
+            if(isUsername.username){//用户没有登录;
+                this.$router.replace("/");
+                return;
             }
         }
     }

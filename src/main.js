@@ -6,7 +6,11 @@ import Router from 'vue-router'
 import {Loading} from 'element-ui';
 import VueQuillEditor from 'vue-quill-editor'
 import "wangeditor/release/wangEditor.css";
+import ButtonBtn from '@/commonality/ButtonBtn';
 
+
+//注册全局组件
+Vue.component('ButtonBtn',ButtonBtn);
 
 // require styles
 import 'quill/dist/quill.core.css'
@@ -18,6 +22,9 @@ const originalPush = Router.prototype.push
 Router.prototype.push = function push(location) {
     return originalPush.call(this, location).catch(err => err)
 }
+
+
+
 
 //引入elements
 import 'element-ui/lib/theme-chalk/index.css';

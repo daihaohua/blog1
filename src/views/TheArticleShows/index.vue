@@ -61,29 +61,19 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div id="pages">
-                <el-button
-                        type="primary"
-                        icon="el-icon-arrow-left"
-                        id="button-left"
-                        @click="previous"
-                        :disabled="page===1?true:false"
-                >上一页</el-button>
-                <span>{{page}}/{{maxPage}}</span>
-                <el-button
-                        type="primary"
-                        id="button-right"
-                        @click="next"
-                        :disabled="page===maxPage?true:false"
-                >下一页<i class="el-icon-arrow-right el-icon--right"></i></el-button>
-            </div>
+            </div> 
+            <button-btn 
+				:page="page" 
+				:maxPage="maxPage"
+				@previous = "previous"
+				@next = "next"
+			/>
         </div>
     </div>
 </template>
 
 <script>
-    import {ajax} from "../../api"
+    import {getArticle,getCommentList,addComment} from "../../api/homeRouter"
     import {Message} from 'element-ui';
     export default {
         name: "index",
@@ -100,14 +90,14 @@
         },
         async activated(){
             let _id = this.$route.query._id;
-            let {data} = await ajax("/api/home/getArticle",{_id});
+            let {data} = await getArticle({_id});
             this.articleDate = data;
             this.username=data.authorId.username;
             this.classify=data.classId.classify;
             this.getComment();
         },
         methods:{
-            async handelClick(){
+            async handelClick(){ //添加评论
                 let parameter = {};
                 parameter.articleId = this.$route.query._id;
                 parameter.classId = this.articleDate.classId;
@@ -119,21 +109,31 @@
                     this.$router.push("/login");
                     return;
                 }
-                let {data} = await ajax("/api/home/addComment",parameter,"post");
-                Message({
-                    type: data.type,
-                    message: data.particulars
-                });
-                this.getComment();
-                this.textArea='';
+                 if(!this.textArea){
+                    Message.info("客官,不能为空哦！！！")
+                    return;
+                }
+                
+                let {data} = await addComment(parameter);
+                if(!data.code){
+                        Message({
+                        type: data.type,
+                        message: data.particulars
+                    });
+                    this.getComment();
+                    this.textArea='';
+                }
             },
-            async getComment(pages){
+            async getComment(pages){//获取评论数据
                 let articleId = this.$route.query._id;
-                let {data} = await  ajax("/api/home/getComment",{pages,articleId})
-                let {CommentData,page,maxPage} = data;
-                this.Comments =  CommentData;
-                this.page = page;
-                this.maxPage = maxPage;
+                if(articleId){
+                    let {data} = await  getCommentList({pages,articleId});
+                    let {CommentData,page,maxPage} = data;
+                    // console.log(data);
+                    this.Comments =  CommentData;
+                    this.page = page;
+                    this.maxPage = maxPage;
+                }
             },
             previous(){
                 let pages = this.page - 1;
@@ -143,7 +143,7 @@
                 let pages = this.page + 1;
                 this.getComment(pages);
             }
-        },
+        }
     }
 </script>
 

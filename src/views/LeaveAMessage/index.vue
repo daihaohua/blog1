@@ -39,28 +39,19 @@
                 </div>
             </div>
         </div>
-        <div id="pages" v-if="LeaveAMessagesData.length !== 0">
-            <el-button
-                    type="primary"
-                    icon="el-icon-arrow-left"
-                    id="button-left"
-                    @click="previous"
-                    :disabled="page===1?true:false"
-            >上一页</el-button>
-            <span>{{page}}/{{maxPage}}</span>
-            <el-button
-                    type="primary"
-                    id="button-right"
-                    @click="next"
-                    :disabled="page===maxPage?true:false"
-            >下一页<i class="el-icon-arrow-right el-icon--right"></i></el-button>
-        </div>
+        <button-btn 
+            :page="page" 
+            :maxPage="maxPage"
+            @previous = "previous"
+            @next = "next"
+		/>
     </div>
 </template>
 
 <script>
-    import {ajax} from "../../api"
+    import {addLeaveAMessage,getLMessage} from "../../api/homeRouter"
     import {Message} from 'element-ui';
+    import {mapState} from 'vuex';
     export default {
         name: "index",
         data(){
@@ -72,19 +63,29 @@
                 maxPage:1,
             }
         },
+        computed:{
+            ...mapState(["user"])
+        },
+         activated(){
+            this.getLeaveAMessage();
+        },
         methods:{
             async handelLeaveAMessage(){
-                //头像 名字 内容
+                //头像 名字 内容 文章_id;
                 let LeaveAMessage = {};
                 LeaveAMessage.textArea = this.textArea;
-                LeaveAMessage.username = this.$store.state.user.username;
-                LeaveAMessage.headPortrait = this.$store.state.user.headPortrait;
+                LeaveAMessage.username = this.user.username;
+                LeaveAMessage.headPortrait = this.user.headPortrait;
                 if(!LeaveAMessage.username){
                     Message.error("你还没有登录,请先登录")
                     this.$router.push("/login");
                     return;
                 }
-                let {data} = await ajax("/api/home/handelLeaveAMessage",LeaveAMessage,"post")
+                if(!LeaveAMessage.textArea){
+                    Message.info("客官,发表不能为空哦！！！")
+                    return;
+                }
+                let {data} = await addLeaveAMessage(LeaveAMessage);
                 this.getLeaveAMessage();
                 Message({
                     type: data.type,
@@ -92,13 +93,12 @@
                 });
                 this.textArea='';
             },
-            async getLeaveAMessage(pages){
-                let {data} = await  ajax("/api/home/getLeaveAMessage",{pages})
+            async getLeaveAMessage(pages){//获取留言数据
+                let {data} = await  getLMessage({pages});
                 let {LeaveAMessagesData,page,maxPage} = data;
                 this.LeaveAMessagesData =  LeaveAMessagesData;
                 this.page = page;
                 this.maxPage = maxPage;
-
             },
             previous(){
                 let pages = this.page - 1;
@@ -109,9 +109,6 @@
                 this.getLeaveAMessage(pages);
             }
         },
-        activated(){
-            this.getLeaveAMessage();
-        }
     }
 </script>
 
@@ -169,23 +166,6 @@
 
                 }
             }
-        }
-        #button-left,#button-right{
-            float:left;
-            margin-top:20px;
-        }
-        #button-right{
-            float:right;
-        }
-        #pages{
-            position: absolute;
-            left:0;
-            bottom:0;
-            right: 0;
-            margin:auto;
-            line-height:70px;
-            text-align:center;
-            font-size: 20px;
         }
     }
 </style>

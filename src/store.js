@@ -1,6 +1,14 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import {ajax} from "./api"
+import {
+        getClass,
+        getArticle,
+        getArticleClass,
+        getLink,
+        getDiary,
+        getPhotoA,
+        getPhotoAlbumA,
+        getPhotoAlbumDataA} from "./api/adminRouter/getAdminData"
 
 Vue.use(Vuex)
 export default new Vuex.Store({
@@ -22,7 +30,7 @@ export default new Vuex.Store({
   },
   mutations: {
     userInfos(state,user){
-      state.user = user;
+        state.user = user;
     },
 	BackStageData(state,BackStageDatas){
 		 state.BackStageDatas = BackStageDatas;
@@ -56,41 +64,41 @@ export default new Vuex.Store({
   actions: {
       //获取后台分类数据
       async getCategoricalData({commit},pages) {
-          let {data} = await ajax("/api/backStage/checkTheClassification",{pages});
-          console.log(data)
-              commit("categoricalData",data);
+        
+        let {data} = await getClass({pages});
+        commit("categoricalData",data);
       },
       //获取后台文章分类数据
       async theArticleClassification({commit}) {
-          let {data} = await ajax("/api/backStage/theArticleClassification");
+          let {data} = await getArticleClass();
           commit("theArticleClassification",data);
       },
       //获取后台文章数据
       async articleData({commit},pages) {
-          let {data} = await ajax("/api/backStage/toViewTheArticle",{pages});
+          let {data} = await getArticle({pages});
           commit("articleData",data);
       },
       //获取后台友链数据
       async forALink({commit},pages) {
-          let {data} = await ajax("/api/backStage/forALink",{pages});
+          let {data} = await getLink({pages});
           commit("forALinkData",data);
       },
       //获取后台日记数据
       async diary({commit},pages) {
-          let {data} = await ajax("/api/backStage/toObtainADiary",{pages});
+          let {data} = await getDiary({pages});
           commit("diaryData",data);
       },
+      //获取相册数据
       async getPhoto({commit}) {
-          let {data} = await ajax("/api/upload/getPhoto");
+          let {data} = await getPhotoA();
           commit("getPhotoData",data);
       },
       async getPhotoAlbum({commit},pages) {
-          let {data} = await ajax("/api/backStage/getPhotoAlbum",{pages});
+          let {data} = await getPhotoAlbumA({pages});
           commit("getPhotoAlbumData",data);
       },
       async photoData({commit},PhotoAlbumId) {
-          let {data} = await ajax("/api/backStage/photoAlbumData",{PhotoAlbumId});
-          console.log(data);
+          let {data} = await getPhotoAlbumDataA({PhotoAlbumId});
           commit("photoAlbumData",data);
       },
 

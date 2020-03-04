@@ -41,8 +41,6 @@
 
                     <!--一路走来-->
                     <AllTheWayToGo />
-
-
                 </div>
             </el-col>
         </el-row>
@@ -57,7 +55,7 @@
     import TheArticleDetails from "../theArticleDetails/index";
     import Friendship from "@/components/Friendship";
     import AllTheWayToGo from "@/components/AllTheWayToGo";
-    import {ajax} from "../../api"
+    import {getPageData} from "../../api/homeRouter"
     export default {
         name: "Homes",
         data(){
@@ -70,7 +68,7 @@
             }
         },
         async activated(){
-            let {data} = await ajax("/api/home/homePageData");
+            let {data} = await getPageData();
             this.slideShowData = data.SlideShowData;
             this.articleDate = data.ArticleData;
             this.LeaveAMessageData = data.LeaveAMessageData;

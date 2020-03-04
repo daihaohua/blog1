@@ -1,10 +1,12 @@
 <template id="">
     <div class="lonGin" >
-        <el-dropdown trigger="click"  @command="handleCommand">
+        <el-dropdown 
+            trigger="click"  
+            @command="handleCommand">
                 <span>
                     <el-avatar
-                            :size="50"
-                            :src="user.headPortrait">
+                        :size="50"
+                        :src="user.headPortrait">
                     </el-avatar>
                 </span>
                 <el-dropdown-menu slot="dropdown"
@@ -35,23 +37,28 @@
 </template>
 
 <script>
-    import {ajax} from "../../api"
+    import {userQuit} from "../../api/homeRouter"
     export default {
         name: "LonginAndRed",
         props:["user"],
         methods:{
-            async handleCommand(command) {
+            async handleCommand(command) { //退出操作
                 if(command === "quit"){
-                    let data = await  ajax("/api/home/quit","get")
-                    this.$store.commit("userInfos",data);
+                    let {data} = await  userQuit();
+                    if(!data.username){
+                    let quit = {
+                            headPortrait:'',
+                            isAdmin:'',
+                            username:''
+                        }
+                    this.$store.commit("userInfos",quit);
                     this.$router.push("/");
+                    }
                     return false;
                 }else if(command === 'personalCenter'){
                     this.$router.push("/personalCenter");
                 }else if(command === 'login') {
-                    this.$router.replace({
-                        name:"login"
-                    })
+                    this.$router.replace({name:"login"})
                 }else{
                     this.$router.push("/backStage/userManagement");
                 }

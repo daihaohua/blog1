@@ -24,7 +24,7 @@
 </template>
 
 <script>
-    import {ajax} from "../../api"
+    import {getNotesData,getPhotoList} from "../../api/homeRouter"
     import {Message} from "element-ui"
     export default {
         name: "index",
@@ -46,18 +46,17 @@
             }
         },
         async activated(){
-            let {data} = await ajax("/api/home/StudyNotesData");
+            let {data} = await getNotesData();
             this.StudyNotesData = data;
         },
         methods:{
             async getStudyNotesData(PhotoAlbumId){
                 if(this.oldSrcList !== PhotoAlbumId){
-                    let {data} = await ajax("/api/home/StudyNotesOneData",{PhotoAlbumId});
+                    let {data} = await getPhotoList({PhotoAlbumId});
                     this.oldSrcList = PhotoAlbumId;
                     this.srcList = data.length?this.srcList = data:[];
                     if(data.length===0){
                         Message.error('当前相册还没有照片，请先添加')
-
                     }
                 }
             }

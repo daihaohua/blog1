@@ -2,7 +2,7 @@
     <div id="about">
         <BreadCrumb :breadCrumb="breadCrumb"/>
         <h2>关于我</h2>
-        <div class="about-subject" v-for="(item,index) in datas">
+        <div class="about-subject" v-for="(item,index) in datas" :key="index">
             <h3 class="about-description">
                 <strong>{{item.name}}</strong>
             </h3>

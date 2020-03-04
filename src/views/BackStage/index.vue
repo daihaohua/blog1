@@ -17,9 +17,11 @@
                 </el-aside>
                 <el-container>
                     <el-main>
-						<keep-alive>
-							<router-view/>
-						</keep-alive>
+                            <transition-ify>
+                            <keep-alive>
+                                <router-view/>
+                            </keep-alive>
+                            </transition-ify>
                     </el-main>
                     <el-footer>底部</el-footer>
                 </el-container>
@@ -32,14 +34,12 @@
 	import {ajax} from "../../api"
     import SideBar from "@/components/admin/SideBar";
     import {Message} from 'element-ui';
+    import TransitionIfy from "@/commonality/TransitionIfy"
     export default {
         name: "index",
-		data(){
-			return{
-			}
-		},
         components:{
-            SideBar
+            SideBar,
+            TransitionIfy
         },
 		methods:{
 			handelClick(){
@@ -48,7 +48,7 @@
 		},
 		async activated(){
 			//获取所有的后台需要的数据
-			let {data} = await ajax("/api/backStage/userManagement",{pages:1});
+            let {data} = await ajax("/api/backStage/userManagement",{pages:1});
 			if (data.state){
                 Message.error(data.particulars);
 			    this.$router.replace("/")
@@ -56,7 +56,7 @@
             }
 			let userData = data;
 			this.$store.commit("BackStageData",userData);
-		}
+        },
     }
 </script>
 
@@ -77,12 +77,10 @@
         color: #333;
         line-height: 200px;
     }
-
     .el-main {
         background-color: #E9EEF3;
         color: #333;
     }
-
     body > .el-container {
         margin-bottom: 40px;
     }
@@ -91,7 +89,6 @@
     .el-container:nth-child(6) .el-aside {
         line-height: 260px;
     }
-
     .el-container:nth-child(7) .el-aside {
         line-height: 320px;
     }

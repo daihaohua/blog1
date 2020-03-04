@@ -3,9 +3,9 @@
         <el-carousel :interval="4000" type="card" height="300px">
             <el-carousel-item v-for="(item,index) in slideShowData" :key="index">
                 <img
-                        :src="item.imgName"
-                        width="100%"
-                        height="100%"
+                    :src="item.imgName"
+                    width="100%"
+                    height="100%"
                 >
             </el-carousel-item>
         </el-carousel>

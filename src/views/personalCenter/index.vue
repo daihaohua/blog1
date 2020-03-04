@@ -63,7 +63,8 @@
 
 <script>
     import { Message} from 'element-ui';
-    import {ajax} from "../../api";
+    import {updateUsername,updatePassword,updateHeadPortrait} from "../../api/homeRouter";
+    import {getUserInfo,userQuit} from "@/api/homeRouter";
     export default {
         name: "index",
         data(){
@@ -76,34 +77,40 @@
             }
         },
         methods:{
-            async nicknameChange(){//
+            async nicknameChange(){//修改昵称
                 let _id = this.users._id;
                 let newName = this.newName;
-                let {data} = await ajax("/api/home/headToModify",{_id,newName},"post");
+                let {data} = await updateUsername({_id,newName});
                 Message({
                     type: data.type,
                     message: data.particulars
                 });
-                window.location.reload();
+                this.getUser();
             },
-            async changePassword(){
-                let _id = this.users._id;
-                let NewPassword = this.NewPassword
-                let {data} = await ajax("/api/home/changePassword",{_id,NewPassword},"post");
-                Message({
-                    type: data.type,
-                    message: data.particulars
-                });
+            async changePassword(){//修改密码
+                const _id = this.users._id;
+                const NewPassword = this.NewPassword
+                const oldPassword = this.oldPassword
+                let {data} = await updatePassword({_id,NewPassword,oldPassword});
+                //退出
+                if(!data.code){
+                    await userQuit();
+                    this.$router.push("/login");
+                     Message({
+                        type: "success",
+                        message: "客官,密码修改完成,请重新登录"
+                    });
+                }
             },
-            async headToModify(){
+            async headToModify(){//修改头像
                 let _id = this.users._id;
                 let headPortrait = this.headPortrait
-                let {data} = await ajax("/api/home/nicknameChange",{_id,headPortrait},"post");
+                let {data} = await  updateHeadPortrait({_id,headPortrait});
                 Message({
                     type: data.type,
                     message: data.particulars
                 });
-                window.location.reload();
+                this.getUser();
             },
             beforeUpload(file){
                 const isLt2M = file.size / 1024 / 1024 < 2;
@@ -118,6 +125,10 @@
                     type: data.type,
                     message: data.particulars
                 });
+            },
+            async getUser(){//重新获取用户信息
+                const {data} = await getUserInfo();
+                this.$store.commit("userInfos",data.userInfo);
             }
         },
         computed:{
@@ -134,9 +145,13 @@
         },
         activated(){
             this.users = this.$store.state.user;
+            if(!this.users.username){//用户没有登录;
+                this.$router.replace("/");
+                return;
+            }
+            this.users = this.$store.state.user;
             this.oldName = this.$store.state.user.username;
             this.headPortrait = this.$store.state.user.headPortrait;
-            console.log(this.users)
         }
     }
 </script>

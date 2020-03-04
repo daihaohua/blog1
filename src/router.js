@@ -20,35 +20,37 @@ const  Register = ()=> import('./views/LoginAndRegistration/Register.vue');
 //后台组件
 const  BackStage = ()=> import('./views/BackStage/');
 //用户管理组件
-const  UserManagement = ()=> import('./views/admin/UserManagement');
+const  UserManagement = ()=> import('./views/admin/user/UserManagement');
 //评论管理组件
 const  Comments = ()=> import('./views/admin/Comments');
 //图片管理组件
 const  ImageManagement = ()=> import('./views/admin/ImageManagement');
-
 // 查看分类组件
-const  CheckTheClassification = ()=> import('./views/admin/CheckTheClassification');
-
+const  CheckTheClassification = ()=> import('./views/admin/classify/CheckTheClassification');
 // 添加分类组件
-const  AddTheClassification = ()=> import('./views/admin/AddTheClassification');
+const  AddTheClassification = ()=> import('./views/admin/classify/AddTheClassification');
+
 // 查看文章组件
-const  ToViewTheArticle = ()=> import('./views/admin/ToViewTheArticle');
+const  ToViewTheArticle = ()=> import('./views/admin/article/ToViewTheArticle');
 // 添加文章组件
-const  AddTheArticle = ()=> import('./views/admin/AddTheArticle');
+const  AddTheArticle = ()=> import('./views/admin/article/AddTheArticle');
+
 // 添加友链添加组件
-const  AddFriendsChain = ()=> import('./views/admin/AddFriendsChain');
+const  AddFriendsChain = ()=> import('./views/admin/chain/AddFriendsChain');
 // 查看友链组件
-const  FriendChainShow = ()=> import('./views/admin/FriendChainShow');
+const  FriendChainShow = ()=> import('./views/admin/chain/FriendChainShow');
+
 // 日记管理组件
-const  DiaryManagement = ()=> import('./views/admin/DiaryManagement');
+const  DiaryManagement = ()=> import('./views/admin/diary/DiaryManagement');
 // 添加日记管理组件
-const  CheckTheDiary = ()=> import('./views/admin/CheckTheDiary');
+const  CheckTheDiary = ()=> import('./views/admin/diary/CheckTheDiary');
+
 //相册管理
 //相册展示
-const  ShowPhotoAlbum = ()=> import('./views/admin/ShowPhotoAlbum');
-
+const  ShowPhotoAlbum = ()=> import('./views/admin/photo/ShowPhotoAlbum');
 //相册添加
-const  AddAPhotoAlbum = ()=> import('./views/admin/AddAPhotoAlbum');
+const  AddAPhotoAlbum = ()=> import('./views/admin/photo/AddAPhotoAlbum');
+
 //文章展示
 const  TheArticleShows = ()=> import('./views/TheArticleShows');
 
@@ -118,7 +120,7 @@ export default new Router({
               {
                   path:"/personalCenter",
                   name:"personalCenter",
-                  component:PersonalCenter,
+                  component:PersonalCenter
               },
           ]
       },

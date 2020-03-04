@@ -3,9 +3,9 @@
         <BreadCrumb :breadCrumb="breadCrumb"/>
         <ul class="clearfix">
             <li
-                    class="clearfix"
-                    v-for="(item,index) in personalDiaryData"
-                    :key="index"
+                class="clearfix"
+                v-for="(item,index) in personalDiaryData"
+                :key="index"
             >
                 <div class="technology-head-portrait">
                     <el-avatar
@@ -32,7 +32,7 @@
 </template>
 
 <script>
-    import {ajax} from "../../api"
+    import {getDiaryData} from "../../api/homeRouter"
     export default {
         name: "index",
         data(){
@@ -42,7 +42,7 @@
             }
         },
         async activated(){
-            let {data} = await ajax("/api/home/personalDiaryData");
+            let {data} = await getDiaryData();
             this.personalDiaryData = data;
         },
     }

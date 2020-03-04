@@ -27,7 +27,7 @@
 </template>
 
 <script>
-    import {ajax} from "../../api"
+    import {getBreadCrumb} from "../../api/homeRouter"
     export default {
         name: "index",
         data(){
@@ -37,7 +37,7 @@
             }
         },
         async activated(){
-            let {data} = await ajax("/api/home/breadCrumb");
+            let {data} = await getBreadCrumb();
             this.breadCrumbData = data;
         },
         methods:{
@@ -52,7 +52,6 @@
     .blogRoll{
         padding:100px;
         background-color: #fff;
-        height: 50vh;
             .latest-particulars{
                 border-radius: 6px;
                 ul{

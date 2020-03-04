@@ -36,29 +36,19 @@
                     </template>
                 </el-table-column>
             </el-table>
-            <div id="pages">
-                <el-button
-                        type="primary"
-                        icon="el-icon-arrow-left"
-                        id="button-left"
-                        @click="previous"
-                        :disabled="page===1?true:false"
-                >上一页</el-button>
-                <span>{{page}}/{{maxPage}}</span>
-                <el-button
-                        type="primary"
-                        id="button-right"
-                        @click="next"
-                        :disabled="page===maxPage?true:false"
-                >下一页<i class="el-icon-arrow-right el-icon--right"></i></el-button>
-            </div>
+            <button-btn 
+                :page="page" 
+                :maxPage="maxPage"
+                @previous = "previous"
+                @next = "next"
+		    />
         </el-main>
     </div>
 </template>
 
 <script>
     import { MessageBox,Message} from 'element-ui';
-    import {ajax} from "../../api"
+    import {getAllComment,deleteComment} from "../../api/adminRouter/leaveMessage"
     export default {
         name: "Comments",
         data(){
@@ -67,6 +57,9 @@
                 page:1,
                 maxPage:1,
             }
+        },
+         activated(){
+            this.getComment()
         },
         methods:{
             //分页上一页
@@ -88,21 +81,16 @@
                     type: 'warning'
                 }).then(async () => {
                     // //
-                    let {data} = await ajax("/api/backStage/deleteComment",{_id},"post");
+                    let {data} = await deleteComment({_id});
                     Message({
                         type: data.type,
                         message: data.particulars
                     });
                     this.getComment();
-                }).catch(() => {
-                    Message({
-                        type: 'info',
-                        message: '已取消删除'
-                    });
-                });
+                }).catch(() => {});
             },
             async getComment(pages){
-                let {data} = await  ajax("/api/home/getAllComment",{pages,limit:6})
+                let {data} = await getAllComment({pages,limit:6});
                 let {CommentData,page,maxPage} = data;
                 this.CommentData =  CommentData;
                 this.page = page;
@@ -110,32 +98,11 @@
 
             },
         },
-        activated(){
-            this.getComment()
-        }
     }
 </script>
 
 <style scoped lang="scss">
     #mian{
-        position:relative;
         height: 100%;
-    }
-    #button-left,#button-right{
-        float:left;
-        margin-top:20px;
-    }
-    #button-right{
-        float:right;
-    }
-    #pages{
-        position: absolute;
-        left:0;
-        bottom:0;
-        right: 0;
-        margin:auto;
-        line-height:70px;
-        text-align:center;
-        font-size: 20px;
     }
 </style>

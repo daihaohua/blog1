@@ -2,6 +2,7 @@
     <div>
         <div id="slide-show">
             <h3>轮播图上传区
+                <el-button type="primary" @click="uploadImg">上传图片</el-button>
             </h3>
             <div class="slide-show-img">
                 <el-upload
@@ -18,9 +19,7 @@
                     <img width="100%" :src="dialogImageUrl" alt="">
                 </el-dialog>
             </div>
-            <h3>图片展示区
-                <el-button type="primary" @click="uploadImg">上传图片</el-button>
-            </h3>
+            <h3>图片展示区</h3>
             <div class="slide-show-imgS">
                     <img
                             v-for="(item,index) in img"
@@ -44,8 +43,8 @@
 
 <script>
     import {Message} from "element-ui"
-    import {ajax} from "../../api"
-    import {mapActions} from 'vuex'
+    import {deleteSlideShowImg,uploadImg} from "../../api/adminRouter/leaveMessage"
+    import {mapActions,mapState} from 'vuex'
     export default {
         name: "ImageManagement",
         data() {
@@ -71,15 +70,14 @@
             },
             handleSuccess(data){
                 this.imgDate.push(data)
-                console.log(this.imgDate);
             },
             handelClick(index){
                 this.dialogTableVisible =true;
                 this.deleteDialogImg = this.img[index];
             },
             async deleteSlideShowImg(){
-                console.log(this.deleteDialogImg)
-                let {data} = await ajax("/api/upload/deleteSlideShowImg",this.deleteDialogImg,"post")
+                
+                let {data} = await deleteSlideShowImg(this.deleteDialogImg);
                 Message({
                     type: data.type,
                     message: data.particulars
@@ -89,8 +87,7 @@
             },
             async uploadImg(){
                 if(this.imgDate.length !== 0){
-                    let {data} = await ajax("/api/upload/uploadImg",this.imgDate,"post")
-                    console.log(data)
+                    let {data} = await uploadImg(this.imgDate);
                     Message({
                         type: data.type,
                         message: data.particulars
@@ -100,14 +97,14 @@
             }
         },
         computed:{
+            ...mapState(["getPhotoData"]),
             CheckTheClassificationData(){
-                return this.$store.state.getPhotoData;
+                return this.getPhotoData;
             },
         },
         watch:{
             CheckTheClassificationData(){
-                this.img = this.$store.state.getPhotoData;
-
+                this.img = this.getPhotoData;
             }
         },
         activated(){

@@ -29,19 +29,23 @@
             <!--主体部分-->
 
             <div id="subject">
-                <keep-alive>
-                    <router-view />
-                </keep-alive>
+                <transition-ify>
+                      <keep-alive>
+                        <router-view />
+                    </keep-alive>
+                </transition-ify>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-    import Logo from "../../components/Logo/index"
-    import NavLeft from "../../components/Nav/NavLeft"
-    import LonginAndRed from "../../components/longinandreg/LonginAndRed"
-    import {ajax} from "../../api"
+    import Logo from "../../components/Logo/index";
+    import NavLeft from "../../components/Nav/NavLeft";
+    import LonginAndRed from "../../components/longinandreg/LonginAndRed";
+    import TransitionIfy from "@/commonality/TransitionIfy";
+    import {getUserInfo} from "../../api/homeRouter";
+    // import {} from "vuex";
     export default {
         name: "Home",
         data() {
@@ -51,7 +55,7 @@
             };
         },
         async activated(){
-            let {data} = await  ajax("/api/home/imageInformation","get");
+            let {data} = await getUserInfo();
             this.user  = data.userInfo;
             this.classData = data.ClassIfysData;
             this.$store.commit("userInfos",data.userInfo);
@@ -70,6 +74,7 @@
             Logo,
             NavLeft,
             LonginAndRed,
+            TransitionIfy
         }
     }
 </script>

@@ -2,22 +2,13 @@
     <div id="TheArticleDetails">
         <bread-crumb :breadCrumb="breadCrumb"/>
         <the-latest-article :articleDate="articleDate" />
-        <div id="pages" v-show="articleDate.length !== 10">
-            <el-button
-                    type="primary"
-                    icon="el-icon-arrow-left"
-                    id="button-left"
-                    @click="previous"
-                    :disabled="page===1?true:false"
-            >上一页</el-button>
-            <span>{{page}}/{{maxPage}}</span>
-            <el-button
-                    type="primary"
-                    id="button-right"
-                    @click="next"
-                    :disabled="page===maxPage?true:false"
-            >下一页<i class="el-icon-arrow-right el-icon--right"></i></el-button>
-        </div>
+        <button-btn 
+            v-show="articleDate.length >= 10"
+            :page="page" 
+            :maxPage="maxPage"
+            @previous = "previous"
+            @next = "next"
+        />
         <div v-show="articleDate.length === 0">
             <h3>该分类还没有文章数据请联系管理员添加文章；</h3>
         </div>
@@ -25,7 +16,7 @@
 </template>
 
 <script>
-    import {ajax} from "../../api"
+    import {getArticleDetails} from "../../api/homeRouter";
     export default {
         name: "TheArticleDetails",
         data(){
@@ -47,7 +38,8 @@
             },
             async getClassifyArticle(pages){
                 let classId =  this.$route.params.id;
-                let {data} = await ajax("/api/home/study/"+classId,{pages});
+                
+                let {data} = await getArticleDetails(classId,pages);
                 this.page = data.page;
                 this.maxPage = data.maxPage;
                 this.articleDate = data.categoryData;
@@ -60,7 +52,6 @@
                 if(reg.test(judge)){
                    this.getClassifyArticle();
                 }
-
             }
         },
         async activated(){
