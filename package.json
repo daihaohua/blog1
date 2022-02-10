@@ -23,7 +23,7 @@
     "@vue/cli-service": "^3.11.0",
     "babel-plugin-component": "^1.1.1",
     "babel-preset-es2015": "^6.24.1",
-    "node-sass": "^4.9.0",
+    "node-sass": "^7.0.0",
     "sass-loader": "^7.1.0",
     "vue-template-compiler": "^2.6.10"
   },
